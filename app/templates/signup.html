@@ -1,0 +1,78 @@
+<!-- templates/signup.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <img src="/static/images/todo_list_banner.png" width="290px" height="290px">
+    <h3 class="title" style="font-family: 'Varela Round', sans-serif;color: #369090;font-weight: 600;font-size: 31px;">Sign Up</h3>
+    <div class="box"  style="box-shadow: 0 0 15px 3px rgb(0 0 0 / 5%);">
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}.
+            </div>
+        {% endif %}
+        {% endwith %}
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+            <div class="notification is-success">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/signup">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email" autocomplete="off" style="border-radius:35px;font-family: 'Varela Round', sans-serif;" placeholder="Email" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="text" name="name" style="border-radius:35px;font-family: 'Varela Round', sans-serif;" placeholder="Name" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" style="border-radius:35px;font-family: 'Varela Round', sans-serif;" placeholder="Password">
+                </div>
+            </div>
+
+            <button class="button is-block is-info is-large is-fullwidth" style="border-radius:35px;background-color:#338a7e;font-family: 'Varela Round', sans-serif;">Create Account</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+
+<style>
+
+.hero.is-primary {
+    background-color: #a3be2b;
+    color: #fff;
+}
+    .button.is-info, .button.is-info:hover, .button.is-info.is-active, .button.is-info:active {
+        background-color: #03ef62;
+        border-color: transparent;
+        color: rgb(5, 25, 45);
+        font-weight: 700;
+    }
+    
+    
+    
+    .add-block-button{
+      transition: none;
+        padding-top: 6px;
+        font-size: 19px;
+        padding-bottom: 6px;
+        background: transparent;
+        color: rgba(0,0,0,.6);
+        border: 2px dashed rgb(5, 25, 45);;
+        border-radius: 12px;
+        text-align: center;
+    }
+    
+    
+    </style>

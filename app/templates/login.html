@@ -1,0 +1,57 @@
+<!-- templates/login.html -->
+
+{% extends "base.html" %}
+
+ 
+</div>
+
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <img src="/static/images/todo_list_banner.png" width="290px" height="250px">
+    <h3 class="title" style="font-family: 'Varela Round', sans-serif;color: #369090;font-weight: 600;font-size: 31px;">Sign In</h3>
+ 
+    <div class="box" style="box-shadow: 0 0 15px 3px rgb(0 0 0 / 5%);">
+        {% with messages = get_flashed_messages(category_filter=["error"]) %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        {% with messages = get_flashed_messages(category_filter=["success"]) %}
+        {% if messages %}
+            <div class="notification is-success">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/login">
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="email" name="email" autocomplete="off" placeholder="Your Email" style="border-radius:35px;font-family: 'Varela Round', sans-serif;" autofocus="">
+                </div>
+            </div>
+
+            <div class="field">
+                <div class="control">
+                    <input class="input is-large" type="password" name="password" style="border-radius:35px;font-family: 'Varela Round', sans-serif;" placeholder="Your Password">
+                </div>
+            </div>
+            <div class="field">
+                <label class="checkbox" style="font-family: 'Varela Round', sans-serif;">
+                    <input type="checkbox">
+                    Remember me
+                </label>
+            </div>
+            <button class="button is-block is-info is-large is-fullwidth" style="border-radius:35px;background-color:#338a7e;font-family: 'Varela Round', sans-serif;">Login</button>
+        </form>
+        <a href="signup" class="button is-block is-info is-large is-fullwidth" style="border-radius:35px;    background-color: #ffffff;border: 2px solid #338a7e;margin-top: 10px;color: #338a7e;font-family: 'Varela Round', sans-serif;">Sign Up</a>
+
+    </div>
+</div>
+{% endblock %}
+
+ 
+
+ 
+<script src="/static/js/main.js"></script>

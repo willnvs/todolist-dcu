@@ -1,0 +1,166 @@
+ 
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bulma.min.css') }}" />
+     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="/static/css/fontawesome-all.min.css">
+     <link rel="stylesheet" type="text/css" href="/static/css/slick.css">
+     <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+     <link rel="stylesheet" type="text/css" href="/static/css/custom.css">
+    
+     
+
+
+
+<body>
+
+
+        <div class="hero-head">
+                <nav class="navbar" style="border-bottom: 1px solid #e2e2e2;background:#369090;margin-bottom:0px;border-radius:0px;">
+                    <div class="container">
+
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+
+                        <!-- logo goes here -->
+                        <a href="/dashboard">
+                            <img src="/static/images/logo.png" style="float: left;width: 135px;height: 32px;margin-top: 6px;margin-left: 25px;"></a>
+         
+                                 <div class="navbar-end">
+                                  
+                                     {% if not current_user.is_authenticated %}
+         
+                                        
+                                     <a href="{{ url_for('auth.login_home') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;background: #369090;">Home</a>
+                                     </a>
+         
+                                     <a href="{{ url_for('auth.login') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;background: #369090;">
+                                         Sign In
+                                     </a>
+                                     <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;background: #369090;">
+                                         Get Started
+                                     </a>
+                                     {% endif %}
+                                     {% if current_user.is_authenticated %}
+         
+                                  
+                                     <a href="{{ url_for('main.profile') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;background: #369090;">Dashboard</a>
+                                     </a>
+                
+         
+                                     <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;background: #369090;">
+                                         Logout
+                                     </a>
+                                     {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+                </nav>
+            </div>
+
+        <div id="header-holder" class="light-header">
+                <div class="cloud-bg" style="
+                opacity: 0.4;
+                background-color: #f0f9fd40;
+            "></div>
+             
+            <div id="top-content" class="container-fluid">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="main-slider">
+                                <div class="slide">
+                                    <div class="row rtl-row">
+                                        <div class="col-sm-5">
+                                            <div class="img-holder">
+                                                <img src="/static/images/todo_list_banner.png" alt="">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-7">
+                                                <div class="b-text" style="
+                                                font-family: 'Varela Round', sans-serif;
+                                                color: #369090;
+                                            ">Making lists has never been so Easy</div>
+                                            <div class="m-text" style="
+                                            font-family: 'Varela Round', sans-serif;
+                                            color: #4e735d;
+                                            font-size: 20px;
+                                            ">Easily create and share lists with your family, friends <br> and colleagues.</div>
+                                            <form class="container-fluid">
+                                                <div class="row">
+                                       
+                                                        <div class="col-md-4">
+                                                                <span class="input-items-btn">
+                                                                        <a href="/signup" class="hbtn hbtn-primary search" style="background: #369090;border: 1px solid #369090;font-family: 'Varela Round', sans-serif;margin-left: -4px;">Get Started</a>                                                      </span>
+                                                            </div>
+
+                                                            <div class="col-md-4" style="
+">
+                                                        <span class="input-items-btn">
+                                                                <a href="/login" class="hbtn hbtn-primary search" style="font-family: 'Varela Round', sans-serif;margin-left: -46px;color: #369090;border: 2px solid #369090;background: white;">Sign In</a>                                                      </span>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="features container-fluid">
+            <div class="container">
+                <div class="row rtl-row">
+                    <div class="col-sm-5">
+                        <div class="img-holder">
+                            <img src="/static/images/tasks_banner.png" style="width: 55%;
+                            max-width: 346px;" alt="">
+                        </div>
+                    </div>
+                    <div class="col-sm-7">
+                        <div class="feature-info">
+                            <div class="feature-title" style="font-family: 'Varela Round', sans-serif;">Get things done</div>
+                            <div class="feature-text" style="font-family: 'Varela Round', sans-serif;">With a friendly and clean interface, To-do list offers you an easy way to not just making lists but a way to complete them.</div>
+                            <div class="feature-link"><a href="/signup" class="hbtn hbtn-default" style="font-family: 'Varela Round', sans-serif;    background: #369090;
+                                color: white;">Get Started!</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5">
+                        <div class="img-holder">
+                            <img src="/static/images/share_banner.png" style="    width: 1446px;
+                            margin-top: -73px;
+                            max-width: 600px;" alt="">
+                        </div>
+                    </div>
+                    <div class="col-sm-7 def-aligned">
+                        <div class="feature-info">
+                            <div class="feature-title" style="font-family: 'Varela Round', sans-serif;">Easily share lists</div>
+                            <div class="feature-text" style="font-family: 'Varela Round', sans-serif;">Stay in sync with family and friends by sharing a list with them. Any changes made to a shared list will show up instantly to everyone sharing the list.</div>
+                            <div class="feature-link"><a href="/signup" style="font-family: 'Varela Round', sans-serif;    background: #369090;
+                                color: white;" class="hbtn hbtn-default">Get Started!</a></div>
+                        </div>
+                    </div>
+                </div>
+                 
+            </div>
+        </div>
+         
+         
+        
+        <div class="footer container-fluid" style="background-color: #369090;">
+             
+                 
+            </div>
+        </div>
+        <script src="/static/js/jquery.min./static/js"></script>
+        <script src="/static/js/bootstrap.min./static/js"></script>
+        <script src="/static/js/slick.min./static/js"></script>
+        <script src="/static/js/main./static/js"></script>
+        </body>
+
+ 

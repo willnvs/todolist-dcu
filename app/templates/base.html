@@ -1,0 +1,77 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html style="scroll-behavior: smooth;">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bulma.min.css') }}" />
+    <link rel="preconnect" href="https://fonts.gstatic.com"> 
+    <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/fonts/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="/static/fonts/font-awesome/css/font-awesome.min.css">
+
+
+</head> 
+
+<body style="background: #f0f9fd40;">
+    <section class="hero is-primary is-fullheight" style=" align-items: center;display: block;background-color:#fff;">
+
+        <div class="hero-head">
+            <nav class="navbar" style="border-bottom: 1px solid #e2e2e2;background:#369090;margin-bottom:0px;border-radius:0px;">
+                <div class="container">
+
+                    <div id="navbarMenuHeroA" class="navbar-menu">
+
+                        <!-- logo goes here -->
+                <a href="/dashboard">
+                   <img src="/static/images/logo.png" style="float: left;width: 135px;height: 32px;margin-top: 6px;margin-left: 25px;"></a>
+
+                        <div class="navbar-end">
+                         
+                            {% if not current_user.is_authenticated %}
+
+                               
+                            <a href="{{ url_for('auth.login_home') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;">Home</a>
+                            </a>
+
+                            <a href="{{ url_for('auth.login') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;">
+                                Sign In
+                            </a>
+                            <a href="{{ url_for('auth.signup') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;">
+                                Get Started
+                            </a>
+                            {% endif %}
+                            {% if current_user.is_authenticated %}
+
+                         
+                            <a href="{{ url_for('main.profile') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;">Dashboard</a>
+                            </a>
+       
+
+                            <a href="{{ url_for('auth.logout') }}" class="navbar-item" style="font-family: 'Varela Round', sans-serif; color: #fff;">
+                                Logout
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <div class="hero-body" style="flex-grow: 1;flex-shrink: 0;padding: 1rem 1.5rem;background: #f0f9fd40;">
+            <div class="container has-text-centered">
+               {% block content %}
+               {% endblock %}
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>
+
+
+

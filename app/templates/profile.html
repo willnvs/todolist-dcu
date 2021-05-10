@@ -1,0 +1,1667 @@
+<!-- templates/profile.html -->
+
+
+{% extends "base.html" %}
+<meta http-equiv="refresh" >
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
+  
+
+ <script src="{{ url_for('static', filename='upload.js') }}"></script>
+
+
+
+{% block content %}
+
+ 
+
+ <!--box links -->  
+
+<div class="column is-4 is-offset-4" style="display: inline-block;float: left;margin-left: 0;border: 0px solid #e3f1e9;border-radius: 20px;background:#f0f7fc;width: 28%;">   <!--this can configure the box size-->  
+ 
+ 
+   <!--profile pic -->  
+
+
+  <div class="profile-userpic text-center" id="profile_image_main" style="border-radius: 50% !important;">
+   
+      <div class="container" style="
+      width: 120px;
+      height: 126px;
+      display: block;
+      margin: 0 auto;
+      ">
+
+      {% if photo == none %}
+
+      
+      <a id="modal-btn3" >
+
+      <div class="inner" style="
+      background-color: #f2f2f3;
+      width: 40px;
+      height: 40px; 
+      padding: 6px 10px;
+      border-radius: 100%;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      "><i class="icon-camera" style="
+    vertical-align: middle;
+    font-size: 20px;
+    color: #525252;
+    text-align: center;
+"></i>
+    </div>  
+
+    {% endif %}
+
+
+    {% if photo == none %}
+   
+ 
+      <img src="/static/upload/profile/avatar.png" data-pagespeed-url-hash="1648252084" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" style="border-radius: 59% 57% 45% 48%!important; width: 120px; height: 120px;">
+    </a>
+    {% endif %}
+    
+    {% if photo != none %}
+
+    <a id="modal-btn3" >
+      <!-- <img src="/static/upload/profile/avatar.png" data-pagespeed-url-hash="1648252084" onload="pagespeed.CriticalImages.checkImageForCriticality(this);" style="border-radius: 59% 57% 45% 48%!important; width: 120px; height: 120px;">   --> 
+      <img src="/static/upload/profile/{{ photo.lower() }}" style="border-radius: 59% 57% 45% 48%!important; width: 120px; height: 120px;">
+ 
+    </a>
+     {% endif %}
+    
+    </div>
+   
+   
+     
+  </div>
+                        
+    <h3 class="title" style="font-family: 'Varela Round', sans-serif; color: #324047;font-size: 24px;margin-top: 10px;">Hi {{ name }}!</h3>
+    <div class="box" style="background: #d8ffdf00;box-shadow:none;">
+        <h3 class="title" style="line-height: 0;color: black;font-size: 16px;font-weight: 300;margin-top: 10px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">👋 &nbsp; Add tasks and create lists</h3>
+        
+        
+            
+<a class="modal-btn6 button is-block is-info is-large is-fullwidth" style="background-color: #3fad9e;color:#fff;margin-top: 30px;font-family: 'Varela Round', sans-serif;border-radius: 35px;">+ Add Task</a>
+<a class="modal-btn7 button is-block is-info is-large is-fullwidth" style="background-color: #44a4e8;color:#fff;margin-top: 10px;font-family: 'Varela Round', sans-serif;border-radius: 35px;">Create List</a>
+
+ 
+         </div>
+        
+
+  
+
+         <!--My Lists Menu -->  
+
+        <div id="my_lists"  class="box">
+        
+
+          <h3 class="title" style="color: #232323;font-size: 16px;padding-bottom: 10px;text-align: left;
+          border-bottom: 1px solid #e8e8e8;font-weight: 700;margin-bottom: -15px;font-family: 'Varela Round', sans-serif;">My Lists</h3>
+          <br>
+
+          {% if get_list|length > 0  %}  
+
+          <h3 class="title" style="font-size: 18px;font-weight: 600;text-align: left;color: #338a7e;font-family: 'Varela Round', sans-serif;">
+            {% for lista in get_list %}
+            <a href="{{ url_for('main.get_list', list_name=lista[0]) }}" style="font-family: 'Varela Round', sans-serif;">
+            <p style="font-size: 18px;font-weight: 700;text-align: left;color: #338a7e;margin-block-end: 0.5em;"></p>
+            # {{ lista[0] }}</p></a>
+           
+            {% endfor %}
+          </h3>
+
+          
+          {% endif %}
+
+             <!--Message if Lists is empty -->  
+
+             {% if get_list|length == 0 %}
+            
+             <h3 class="title" style="color: #afafaf;font-size: 15px;padding-bottom: 40px;text-align: left;font-weight: 700;
+             margin-bottom: -15px;font-family: 'Varela Round', sans-serif;">No lists yet</h3>
+             
+             {% endif %}
+
+
+          <!--Shared Lists  Menu -->  
+
+          <h3 class="title" style="color: #232323;font-size: 16px;padding-bottom: 10px;text-align: left;border-bottom: 1px solid #e8e8e8;font-weight: 700;
+          margin-bottom: -15px;font-family: 'Varela Round', sans-serif;">Shared Lists</h3>
+           <br> 
+
+           {% if share_list|length > 0 %}
+
+           <h3 class="title" style="font-size: 18px;font-weight: 700;text-align: left;color: #338a7e;font-family: 'Varela Round', sans-serif;"> 
+            
+               {% for list_name_shared in share_list %} 
+               <a href="{{ url_for('main.get_list', list_name=list_name_shared[0]) }}" style="font-family: 'Varela Round', sans-serif;">
+                    <p style="font-size: 18px;font-weight: 700;text-align: left;color: #338a7e;margin-block-end: 0.5em;"></p> 
+                    # {{ list_name_shared[0] }}</p></a>
+            
+                     {% endfor %} 
+                     </h3>
+             
+            {% endif %}
+            
+            <!--Message if Shared Lists is empty -->  
+
+            {% if share_list|length == 0 %}
+            
+            <h3 class="title" style="color: #afafaf;font-size: 15px;padding-bottom: 10px;text-align: left;font-weight: 700;margin-bottom: -10px;
+            font-family: 'Varela Round', sans-serif;">No lists yet</h3>
+            
+            {% endif %}
+
+          </div>
+          </div>
+
+
+
+
+
+<div class="content column is-8 is-offset-4a">
+
+
+
+ 
+  {% if tasks|length < 0 %}
+
+   
+
+ 
+  {% else %}
+
+   <table cellpadding="0" cellspacing="0">
+
+      {% if tasks|length > 0 and list_name == 'New List' %}
+
+      <a id="modal-btn" class="button is-block is-info" style="background-color: #cc64b5;float: right;margin-top: 17px;color: #ffffff;padding-left: 15px;padding-right: 15px;width:22%;font-size: 15px;font-weight: 600;margin-right: 10px;font-family: 'Varela Round', sans-serif;border-radius: 35px;"><i class="icon-cloud-upload" style="color: #ffffff;"></i> Save List</a>
+   <!--- <button id="modal-btn2" class="button is-block is-info" style="background-color: #ffffff; float: right; border: 2px solid #338a7e;margin-top: 10px;color: #338a7e;font-family: 'Varela Round', sans-serif;border-radius: 35px;">Save this List</button>-->  
+      {% endif %}
+
+      {% if tasks|length > 0 and list_name != 'New List' %}
+      
+      
+      {% if list_name != "Tasks To Complete" %} 
+      {% if list_name != "Completed Tasks" %} 
+
+      <a class="modal-btn7 button is-block is-info" style="background-color: #ffffff; float: right; border: 1px solid #e6e6e6e6;margin-top: 10px;color: #369090;font-weight:500;font-family: 'Varela Round', sans-serif;border-radius: 35px;"><i class="icon-list" style="color: #5eb79b;"></i> Create a New List</a>
+
+      <button id="modal-btn2" class="button is-block is-info" style="background-color: #ffffff;float: right;border: 1px solid #e6e6e6e6;margin-top: 10px;color: #369090;font-weight:500;margin-right: 10px;/* font-family: 'Varela Round', sans-serif; */border-radius: 35px;"><i class="icon-group" style="color: #5eb79b;"></i> Share This List</button>
+      
+      {% endif %}
+      {% endif %}
+      {% endif %}
+
+
+ 
+
+
+
+          
+          <!-- condition to show the list name inside the header -->
+
+          {% for list in tasks[:1] %}
+
+
+          
+      <tr style="border-bottom: #e8e8e8 solid 1px;background:linear-gradient(90deg,#55c3b7 0,#5fd0a5 48%,#66da90 100%);">
+
+        
+          <th colspan="5" style="font-size:18px;  border-top-left-radius: 15px;font-weight: 700;color: #fff;font-family: 'Varela Round', sans-serif;">Tasks</th>
+          <th  colspan="3" style="font-size:18px;border-top-right-radius: 15px;font-weight: 700;text-align: center;color: #fff; font-family: 'Varela Round', sans-serif;">Actions</th></tr>
+    
+          
+         <!-- <h3 style="float: left;padding-left: 12px;font-family: 'Varela Round', sans-serif; margin-top: 15px;"># {{ list.list_name }}</h3>-->
+          <br>
+     
+          {% if list_name == "Tasks To Complete" or list_name == "Completed Tasks" %} 
+          <h3 style="font-size: 20px;float: left;padding-left: 12px;font-family: 'Varela Round', sans-serif; margin-top: 1px;    margin-bottom: 15px;"># {{ list_name  }}</h3>
+          {% else %}
+          <!-- <h3 style="font-size: 20px;float: left;padding-left: 12px;font-family: 'Varela Round', sans-serif; margin-top: 1px;    margin-bottom: 15px;"># {{ list.list_name  }}</h3> -->       
+          <form id="updateTitle" action="{{ url_for('updatelist') }}" method="POST">
+              <h3 style="font-size: 20px;float: left;padding-left: 12px;font-family: 'Varela Round', sans-serif; margin-top: 1px;    margin-bottom: 15px;"># </h3>
+            <input type="text" value="{{ list.list_name }}" autocomplete="off"  name="lists" id="lists"   style=" outline: none;font-size: 20px;float: left;border: none;padding-left: 5px;font-family: 'Varela Round', sans-serif;margin-top: 0px;    margin-bottom: 15px;background: #faebd700;color: #363636;font-weight: 600;line-height: 1.125;">
+            <input type="hidden" name="listname_up" id="listname_up" value="{{ list.list_name }}">
+                  
+            </form> 
+          {% endif %}
+
+
+      
+        
+          
+
+          {% endfor %}
+
+       {% for task in tasks %}
+
+      <tbody style="border-left: #e8e8e8 solid 1px;border-right: #e8e8e8 solid 1px;" >
+
+          {% if task.mark_task == 0 %} 
+
+          <tr style="border-bottom: #e8e8e8 solid 1px;background:white; " >
+              {% for list in tasks[:1] %}
+
+
+              <td colspan="5" id="ct-task" style="font-size: 16px;color: #393a3a;font-weight: 500;font-family: 'Varela Round', sans-serif; border:none;vertical-align: middle;" >
+              
+
+                
+                <form id="updateTask" action="/update/{{ task.id }}" method="POST">
+
+                <input type="text" value="{{task.content}}" autocomplete="off"  name="taskContent" id="taskContent"   style="    margin-top: -2px;margin-left: 0px;padding-left:10px;width: 100%;padding-left:0px;outline: none;font-size: 16px;color: #393a3a;font-weight: 500;font-family: 'Varela Round', sans-serif; border:none;vertical-align: middle;">
+                
+                <input type="hidden" name="task_list" id="task_list" value="{{ list_name }}">
+
+
+                </form>
+
+
+               
+            
+                {% endfor %}
+              </td  >
+        
+
+              <td style="font-size:18px;font-weight: 700;border:none; color: #338a7e;  text-align: center;padding: .9em 0em;width: 10%; vertical-align:middle;"   >
+                <a data-id="{{task.id}}" data-ct="{{task.content}}" class="modal-btn4"  ><i class="icon-pencil" style="    color: #5385c3;
+                  
+                  margin-right: 8px;
+                  border: 1px solid #5385c3;
+                  margin-left: 8px;
+                  width: 50px;
+                  padding: 11px 12px;
+                  border-radius: 31px;
+                  font-size: 21px;"></i></a>
+            </td>
+
+             
+             
+             
+              <td style="font-size:18px;font-weight: 700;border:none; color: #338a7e;  text-align: center;padding: .9em 0em;width: 10%; vertical-align:middle;" >
+                  <a href="/remove/{{task.id}}"><i class="icon-trash"
+                    style="    color: #ec3e7e8c;
+                    
+                    margin-right: 8px;
+                    border: 1px solid #ec3e7e8c;
+                    margin-left: 8px;
+                    width: 50px;
+                    padding: 11px 12px;
+                    border-radius: 31px;
+                    font-size: 21px;" ></i></a>
+              </td>
+
+            
+
+              <td style="font-size:18px;font-weight: 700;border:none;text-align: center;padding: .9em 0em;width: 10%; vertical-align:middle;"    >
+                  <a href="/check/{{task.id}}" id="check" name="check"  ><i class="icon-ok" style="
+                    color: #58ce938c;
+                    
+                    margin-right: 8px;
+                    margin-left: 8px;
+                    padding: 11px 12px;
+                    width: 50px;
+                    border: 1px solid #259a856b;
+                    border-radius: 31px;
+                    font-size: 21px;" aria-hidden="true"></i></a>
+              </td>
+
+   
+
+              {% endif %}
+
+
+              {% if task.mark_task == 1 %}
+
+              <tr style="border-bottom: #e8e8e8 solid 1px; background:linear-gradient(182deg,#55a5c314 0,#56b5d20d 48%,#66aada2b 100%);">
+                  <td colspan="5" id="ct-task" style="font-size: 16px;color: #393a3a6b;font-weight: 500;text-decoration: line-through;text-decoration-color: #6d6d6d94;font-family: 'Varela Round', sans-serif; border:none;vertical-align: middle;">{{task.content}}</td>
+                  
+
+                  <td style="font-size:18px;font-weight: 700;border:none; color: #338a7e;  text-align: center;padding: .9em 0em;width: 10%; vertical-align:middle;">
+                    <a data-id="{{task.id}}" data-ct="{{task.content}}" class="modal-btn4"><i class="icon-pencil" style="    color: #5385c3;
+                      
+                      margin-right: 8px;
+                      border: 1px solid #5385c3;
+                      margin-left: 8px;
+                      width: 50px;
+                      padding: 11px 12px;
+                      border-radius: 31px;
+                      font-size: 21px;"></i></a>
+                </td>
+    
+                  
+                  
+                  
+                  <td style="font-size:18px;font-weight: 700;border:none; color: #338a7e;  text-align: center;padding: .9em 0em;width: 10%; vertical-align:middle;">
+                      <a href="/remove/{{task.id}}"><i class="icon-trash"
+                        style="    color: #ec3e7e8c;
+                    
+                        margin-right: 8px;
+                        border: 1px solid #ec3e7e8c;
+                    margin-left: 8px;
+                    width: 50px;
+                    padding: 11px 12px;
+                    border-radius: 31px;
+                    font-size: 21px;" ></i></a>
+                  </td>
+
+                  
+
+              <td style="font-size:18px;font-weight: 700;border:none;text-align: center;padding: .9em 0em;width: 10%; vertical-align:middle;">
+                  <a href="/check/{{task.id}}" id="check" name="check"><i class="icon-ok" style="
+                    color: #58ce938c;
+                   
+                    margin-right: 8px;
+                    margin-left: 8px;
+                    padding: 11px 12px;
+                    width: 50px;
+                    border: 1px solid #259a856b;
+                    border-radius: 31px;
+                    font-size: 21px;" aria-hidden="true"></i></a>
+              </td>
+              
+              {% endif  %}
+
+          </tr>
+
+      
+
+      </tbody>
+      {% endfor %}
+
+
+
+  
+
+  {% endif %}
+ 
+   <!-- dashboard bullets -->
+
+  {% if tasks|length == 0 %}
+  <a  class="modal-btn7" >
+  <div class="column is-4 is-offset-4" style="display: inline-block;float: left;margin-left: 0;    border: 3px dotted #cad1da;/* vertical-align: middle; */border-radius: 20px;background:#f0f7fc;width: 100%;height: 120px;margin-bottom: 20px;">  
+    <h3 class="title" style="line-height: 0;text-align: center;color: #8a9ba5;font-size: 28px;padding: 40px;font-weight: 600;margin-top: 10px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">+ Create a New List</h3>
+   </div></a>
+ 
+   <div class="column is-4 is-offset-4" style="display: inline-block;float: left;margin-left: 0;border: 0px solid #e3f1e9;border-radius: 20px;background:#f0f7fc;width: 49%;height: 120px;margin-bottom: 20px;">  
+    
+    
+    <h3 class="title" style="line-height: 0;color: #338a7e;text-align: center;font-size: 35px;padding: 40px;font-weight: 700;margin-top: -16px;margin-bottom: -24px;font-family: 'Varela Round', sans-serif;">{{ tasks_to_complete[0] }}</h3>
+    <h3 class="title" style="line-height: 0;color: black;text-align: center;font-size: 16px;font-weight: 300;margin-top: 18px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">🚀  Tasks to Complete</h3>
+    <a href="/to_complete"><h3 class="title" style="line-height: 0;color: #5f9cdc;text-align: center;font-size: 15px;text-decoration: underline;font-weight: 600;margin-top: 25px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">See Tasks</h3></a>
+    </div>
+
+
+   <div class="column is-4 is-offset-4" style="display: inline-block;float: left;margin-left: 0;border: 0px solid #e3f1e9;/* vertical-align: middle; */border-radius: 20px;background:#f0f7fc;width: 49%;height: 120px;margin-left: 2%;margin-bottom: 20px;">  
+    <h3 class="title" style="line-height: 0;color: #338a7e;text-align: center;font-size: 35px;padding: 40px;font-weight: 700;margin-top: -16px;margin-bottom: -24px;font-family: 'Varela Round', sans-serif;">{{ completed_tasks[0] }}</h3>
+    <h3 class="title" style="line-height: 0;color: black;text-align: center;font-size: 16px;font-weight: 300;margin-top: 18px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">🏆 Completed Tasks</h3>
+    <a href="/completed_tasks"><h3 class="title" style="line-height: 0;color: #5f9cdc;text-align: center;font-size: 15px;text-decoration: underline;font-weight: 600;margin-top: 25px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">See Tasks</h3></a>  </div>
+
+    <div class="column is-4 is-offset-4" style="display: inline-block;float: left;margin-left: 0;/* border: 3px dotted #cad1da; *//* vertical-align: middle; */border-radius: 20px;background: #edfff0;width: 100%;height: 136px;margin-bottom: 20px;">  
+    
+      <h3 class="title" style="line-height: 0;text-align: left;color: #406534;font-size: 25px;padding-top: 23px;width: 64%;font-weight: 600;margin-top: 10px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">Stay in sync with family and friends</h3><h3 class="title" style="line-height: 0;text-align: left;color: #709a62;font-size: 25px;padding-top: 23px;width: 64%;font-weight: 600;margin-top: 10px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">by sharing a list with them</h3>
+      
+      <a class="modal-btn5"><h3 class="title" style="line-height: 0;color: #5f9cdc;text-align: left;font-size: 15px;text-decoration: underline;font-weight: 600;margin-top: 34px;margin-bottom: 0px;font-family: 'Varela Round', sans-serif;">Share List</h3></a>
+      
+          
+          <img src="/static/todo_list_dashboard.png" width="100px" style="float: right;width: 33%;margin-top: -103px;display: inline-block;">
+         </div>
+
+
+         <!-- send messages Fast Mode  -->
+
+       <table style="border-collapse: initial;border: 2px solid #e8e7e7;border-radius: 20px;padding: 5px;margin-top:-10px;background: #ffffff;"> 
+          <tbody style="position: sticky;/* background-color: #f0f7fc; */">
+      
+        <tr>
+          <th style="border-radius: 6px;border: 0px;">
+          <h3 type="text" style="margin-top: 5px;margin-left: 0px;padding-left:10px;width: 100%;padding-left:0px;outline: none;font-size: 16px;
+          color: #393a3a;font-weight: 600;font-family: 'Varela Round', sans-serif; border:none;vertical-align: middle;">⚡ Add Task - Fast Mode:</h3>
+          <form id="task_bar" action="/insert" method="POST">
+            <div class="field" style="margin-top: 10px;">
+              <div class="control">
+              <input id="addtask5" class="input is-large" style="border-radius: 10px;font-family:'Varela Round', sans-serif;" 
+              type="text" placeholder="Type here your task" autofocus="" autocomplete="off" name="content">
+              </div>
+            </div>
+            <input type="hidden" name="list_name_input" id="list_name_input" value="">
+              
+          </form>
+        </th> 
+        </tr>
+        </tbody>
+        </table>
+
+
+  {% endif %}
+
+
+  <!-- form to send messages -->
+
+ 
+  {% if list_name != "Tasks To Complete" %} 
+
+  {% if list_name != "Completed Tasks" %} 
+
+  {% if tasks|length > 0 %}
+
+  <table style="border-collapse: initial;border: 2px solid #e8e7e7;border-radius: 8px;padding: 5px;margin-top:0px;background: #ffffff;"> 
+      <tbody style="position: sticky;/* background-color: #f0f7fc; */">
+    
+     <!-- form to send messages -->
+         
+    <tr>
+      <th style="border-radius: 6px;border: 0px;">
+      <h3 type="text" style="margin-top: 5px;margin-left: 0px;padding-left:10px;width: 100%;padding-left:0px;outline: none;font-size: 16px;color: #393a3a;font-weight: 600;font-family: 'Varela Round', sans-serif; border:none;vertical-align: middle;">⚡ Add Task - Fast Mode:</h3>
+      <form id="task_bar" action="/insert" method="POST">
+        <div class="field" style="margin-top: 10px;">
+          <div class="control">
+          <input id="addtask5" class="input is-large" style="border-radius: 10px;font-family:'Varela Round', sans-serif;" type="text" placeholder="Type here your task" autofocus="" autocomplete="off" name="content">
+          </div>
+        </div>
+        <input type="hidden" name="list_name_input" id="list_name_input" value="{{ list_name }}">
+          
+      </form>
+    </th> 
+    </tr>
+    </tbody>
+    </table>
+   
+    {% endif %}
+    {% endif %}
+    {% endif %}
+ 
+</div>
+ 
+
+
+ <!--Open Popup -->  
+
+
+<div class="modal">
+  <div class="modal-content column is-4 is-offset-4">
+    <span class="close-btn" style="font-size: 46px;padding-right: 15px;">&times;</span>
+
+
+ <!--Fields inside popup -->  
+
+
+    <div class="column is-12 is-offset-0">
+        <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif; border:none; font-size: 16px;font-weight: 300;margin-top: 25px;margin-bottom: 0px;">📝&nbsp; Give a name to your list</h3>
+        <div class="box" style="box-shadow:none;border:none;margin-bottom: -10px;">
+
+
+
+            <form id="taskform2" action="{{ url_for('save_list') }}" method="POST">
+
+              
+              <div class="field">
+                <div class="control">
+                <input  class="input is-large" autofocus style="font-family: 'Varela Round', sans-serif; border:none;border-radius: 35px;" type="text" placeholder="Type here" autocomplete="off" name="lists" id="lists">
+                </div></div>
+                <input type="submit" id="modalsub" class="button is-block is-info is-large is-fullwidth"  style="font-family: 'Varela Round', sans-serif; border:none; color:#fff;    border-radius: 35px;" value="Save list">
+            </form>
+ 
+   
+        </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+ 
+
+  
+
+ <!--Invisible Popup div  -->  
+
+<div class="modal">
+    <div class="modal-header">
+      <span class="close-btn">&times;</span>
+    </div>
+    <div class="modal-content">
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+
+
+
+
+
+ <!--Open Popup 2 - Share List -->  
+
+
+ <div class="modal2 modal">
+  <div class="modal2-content column is-4 is-offset-4">
+    <span class="close-btn2" style="font-size: 46px;padding-right: 15px;">&times;</span>
+
+
+ <!--Fields inside popup -->  
+
+
+    <div class="column is-12 is-offset-0">
+        <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif; border:none; font-size: 16px;font-weight: 300;margin-top: 25px;margin-bottom: 0px;">📝&nbsp; Type emails below, separated by commas.</h3>
+        <div class="box" style="box-shadow:none;border:none;margin-bottom: -10px;">
+
+
+
+            <form id="taskform3" action="{{ url_for('share') }}" method="POST">
+
+              
+              <div class="field">
+                <div class="control">
+                <input  class="input is-large" autofocus style="font-family: 'Varela Round', sans-serif; border:none;    border-radius: 35px;" type="text" placeholder="john@gmail.com, anne@gmail.com" autocomplete="off" name="share_input" id="share_input">
+                <input type=hidden name="task_list" id="task_list" value="{{ list_name }}">
+                </div></div>
+                <input type="submit" id="modalsub" class="button is-block is-info is-large is-fullwidth"  style="font-family: 'Varela Round', sans-serif; border:none; color:#fff;border-radius: 35px;" value="Add Members">
+            </form>
+ 
+   
+        </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+ 
+
+  
+
+ <!--Invisible Popup div  -->  
+
+<div class="modal2">
+    <div class="modal-header2">
+      <span class="close-btn2">&times;</span>
+    </div>
+    <div class="modal-content2">
+    </div>
+    <div class="modal-footer2">
+    </div>
+  </div>
+
+
+ <!--end popu 2 - share list  -->  
+
+
+
+
+ <!--Open Popup 3 - upload profile pic -->  
+
+
+ <div class="modal3 modal">
+  <div class="modal3-content column is-4 is-offset-4">
+    <span class="close-btn3" style="font-size: 46px;padding-right: 15px;">&times;</span>
+
+
+ <!--Fields inside popup -->  
+
+
+    <div class="column is-12 is-offset-0">
+        <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif; border:none; font-size: 16px;font-weight: 300;margin-top: 25px;margin-bottom: 0px;">📷&nbsp; Chose your profile picture</h3>
+        <div class="box" style="box-shadow:none;border:none;margin-bottom: -10px;">
+
+
+
+         
+    <form action="/upload"  method = "POST"  enctype = "multipart/form-data"> 
+  
+          <input name="fileF" type="file" style="margin-top: 30px;" />
+
+          <input type="submit" id="modalsub" class="button is-block is-info is-large is-fullwidth" style="font-family: 'Varela Round', sans-serif; margin-top:30px; border:none; color:#fff;    border-radius: 35px;" value="Upload Photo">
+
+        
+  
+  </form>
+ 
+
+        
+   
+        </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+ 
+
+  
+
+ <!--Invisible Popup div  -->  
+
+<div class="modal3">
+    <div class="modal-header3">
+      <span class="close-btn3">&times;</span>
+    </div>
+    <div class="modal-content3">
+    </div>
+    <div class="modal-footer3">
+    </div>
+  </div>
+
+
+ <!--end popu 3 - upload profile pic  --> 
+ 
+ 
+
+  <!--Open Popup 4 - update task -->  
+
+
+  <div class="modal4 modal">
+    <div class="modal4-content column is-4 is-offset-4">
+      <span class="close-btn4" style="font-size: 46px;padding-right: 15px;">&times;</span>
+  
+  
+   <!--Fields inside popup -->  
+  
+  
+      <div class="column is-12 is-offset-0">
+          <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 83px;font-weight: 300;margin-top: 65px;margin-bottom: 0px;"></h3>
+          <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 18px;font-weight: 300;margin-top: 65px;margin-bottom: 0px;">Update your task</h3>
+
+          
+          <div class="box" style="box-shadow:none;border:none;margin-bottom: -10px;">
+  
+            {% for task in tasks[:1] %}
+  
+              <form id="updateTask0" action="" method="POST">
+                <div class="modal-data" >
+                  <div class="field">
+                    <div class="control">
+                    <input class="input is-large modal-data"  style="font-family: 'Varela Round', sans-serif; border:none;      margin-top: 15px;  border-radius: 35px;" type="text" name="taskContent" id="taskContent" value="">
+                    <input type="hidden" class="input is-large" id="taskId" autofocus style="font-family: 'Varela Round', sans-serif; border:none;      margin-top: 15px;  border-radius: 35px;" type="text" value="">
+                    <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 18px;font-weight: 300;margin-top: 15px;text-align:center;margin-bottom: 10px;">Move this task to another list:</h3>
+                    <select class="input is-large"  style="font-family: 'Varela Round', sans-serif; border:none;      margin-top: 15px;  border-radius: 35px;" type="text" name="task_list" id="task_list" >
+                      {% for lista in get_list %}
+                         <option value="{{ lista[0] }}">
+                          {{ lista[0] }}
+                        </option> 
+                        {% endfor %}
+                     <!--   {% for list_name_shared in share_list %} 
+                        <option value="{{ list_name_shared[0] }}">
+                          {{ list_name_shared[0] }}
+                        </option>
+                        {% endfor %} -->  
+                    </select>
+                  </div>
+                </div>
+                    <button id="buttonUpdate" class="button is-block is-info is-large is-fullwidth"  style="font-family: 'Varela Round', sans-serif; background-color:#338a7e;border:none; color:#fff;border-radius: 35px;" value="Update Task">Update Task</button>
+                </div>
+               </form>
+     
+              {% endfor %}
+
+     
+          </div>
+      </div>
+  
+  
+  
+  
+    </div>
+  </div>
+   
+  
+    
+  
+   <!--Invisible Popup div  -->  
+  
+  <div class="modal4">
+      <div class="modal-header4">
+        <span class="close-btn4">&times;</span>
+      </div>
+      <div class="modal-content4">
+      </div>
+      <div class="modal-footer4">
+      </div>
+    </div>
+  
+  
+   <!--end popu 4 - update task -->  
+
+
+
+
+   
+
+
+ <!--Open Popup 5 - Share List -->  
+
+
+ <div class="modal5 modal">
+  <div class="modal5-content column is-4 is-offset-4">
+    <span class="close-btn5" style="font-size: 46px;padding-right: 15px;">&times;</span>
+
+
+ <!--Fields inside popup -->  
+
+
+    <div class="column is-12 is-offset-0">
+        <div class="box" style="box-shadow:none;border:none;margin-bottom: -10px;">
+
+
+
+            <form id="taskform5" action="{{ url_for('share') }}" method="POST">
+
+              
+              <div class="field">
+                <div class="control">
+                <p class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif; border:none; text-align:left; font-size: 16px;font-weight: 300;margin-top: 0px;margin-bottom: 20px;padding-left: 8px;">Select a List:</p>
+
+                <select class="input is-large"  style="font-family: 'Varela Round', sans-serif; border:none;      margin-top: 15px;  border-radius: 35px;" type="text" name="task_list" id="task_list" >
+                    {% for lista in get_list %}
+                   <!--   <option value="" disabled selected>Select an University</option>--->
+                    <option value="{{ lista[0] }}">
+                      
+                      {{ lista[0] }}
+                    
+                    </option>
+                  
+                    {% endfor %}
+            
+                   <!--  <option value="New List">New List</option>--->
+                 
+                  </select>
+
+                <p class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif; border:none; font-size: 16px;font-weight: 300;margin-top: 25px;margin-bottom: 20px;text-align:left;padding-left:8px;">Type emails bellow, separated by commas.</p>
+                 <input  class="input is-large" autofocus style="font-family: 'Varela Round', sans-serif; border:none;    border-radius: 35px;" type="text" placeholder="john@gmail.com, anne@gmail.com" autocomplete="off" name="share_input" id="share_input">
+
+
+              </div></div>
+                <input type="submit" id="modalsub" class="button is-block is-info is-large is-fullwidth"  style="font-family: 'Varela Round', sans-serif; border:none; color:#fff;border-radius: 35px;" value="Share Now">
+               
+              </form>
+ 
+   
+        </div>
+    </div>
+
+
+
+
+  </div>
+</div>
+ 
+
+  
+
+ <!--Invisible Popup div  -->  
+
+<div class="modal5">
+    <div class="modal-header5">
+      <span class="close-btn5">&times;</span>
+    </div>
+    <div class="modal-content5">
+    </div>
+    <div class="modal-footer5">  
+    </div>
+  </div>
+
+
+ <!--end popu 5 - share list  -->  
+  
+
+ 
+  <!--Open Popup 6 - add task -->  
+
+
+  <div class="modal6 modal">
+      <div class="modal6-content column is-4 is-offset-4">
+        <span class="close-btn6" style="font-size: 46px;padding-right: 15px;">&times;</span>
+    
+    
+     <!--Fields inside popup -->  
+    
+    
+        <div class="column is-12 is-offset-0">
+            <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 83px;font-weight: 300;margin-top: 65px;margin-bottom: 0px;"></h3>
+            <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 18px;font-weight: 300;margin-top: 65px;margin-bottom: 0px;">+ Add a Task</h3>
+  
+            
+            <div class="box" style="box-shadow:none;border:none;margin-bottom: -10px;">
+    
+            
+    
+                <form id="AddTaskMenu" action="/insert" method="POST">
+                  <div class="modal-data" >
+                    <div class="field">
+                      <div class="control">
+                        <input id="addtask5" class="input is-large" style="border-radius: 10px;font-family:'Varela Round', sans-serif;" type="text" placeholder="Type here your task" autofocus="" autocomplete="off" name="content">
+                       <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 18px;font-weight: 300;margin-top: 15px;text-align:center;margin-bottom: 10px;">Select a list:</h3>
+                      <select class="input is-large"  style="font-family: 'Varela Round', sans-serif; border:none;      margin-top: 15px;  border-radius: 35px;" type="text" name="list_name_input" id="list_name_input" >
+                          {% for lista in get_list %}
+                          <option value="{{ lista[0] }}">
+                            {{ lista[0] }}
+                            
+                          </option>
+                          {% endfor %}
+                          <option value="New List">New List</option>
+                      </select>
+                    </div>
+                  </div>
+                      <button id="AddTaskButton" class="button is-block is-info is-large is-fullwidth"  style="font-family: 'Varela Round', sans-serif; background-color:#338a7e;border:none; color:#fff;border-radius: 35px;">Add Task</button>
+                  </div>
+                 </form>
+       
+              
+  
+       
+            </div>
+        </div>
+    
+    
+    
+    
+      </div>
+    </div>
+     
+    
+      
+    
+     <!--Invisible Popup div  -->  
+    
+    <div class="modal6">
+        <div class="modal-header6">
+          <span class="close-btn6">&times;</span>
+        </div>
+        <div class="modal-content6">  
+        </div>
+        <div class="modal-footer6">
+        </div>
+      </div>
+    
+    
+     <!--end popu 6 - update task -->  
+
+
+
+      
+  <!--Open Popup 7 - add task -->  
+
+
+  <div class="modal7 modal">
+      <div class="modal7-content column is-4 is-offset-4">
+        <span class="close-btn7" style="font-size: 46px;padding-right: 15px;">&times;</span>
+    
+    
+     <!--Fields inside popup -->  
+    
+    
+        <div class="column is-12 is-offset-0">
+            <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 83px;font-weight: 300;margin-top: 65px;margin-bottom: 0px;"></h3>
+            <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 18px;font-weight: 300;margin-top: 65px;margin-bottom: 0px;">Give a name to your List</h3>
+  
+            
+            <div class="box" style="box-shadow:none;border:none;margin-bottom: -10px;">
+    
+            
+    
+                <form id="CreateListMenu" action="/insert" method="POST">
+                  <div class="modal-data" >
+                    <div class="field">
+                      <div class="control">
+                        <input type="hidden" id="addtask5" class="input is-large" style="border-radius: 10px;font-family:'Varela Round', sans-serif;" type="text"    autocomplete="off" name="content" value="I'm a Task. Edit here...">
+                       <h3 class="title" style="line-height: 0;color: black;font-family: 'Varela Round', sans-serif;border:none;font-size: 18px;font-weight: 300;margin-top: 15px;text-align:center;margin-bottom: 10px;" ></h3>
+                      
+                      
+                       <input class="input is-large"  style="font-family: 'Varela Round', sans-serif; border:none;      margin-top: 15px;  border-radius: 35px;" type="text" name="list_name_input" id="list_name_input" placeholder="Type here" >
+                      
+                    </div>
+                  </div>
+                      <button id="CreateListButton" class="button is-block is-info is-large is-fullwidth"  style="font-family: 'Varela Round', sans-serif; background-color:#338a7e;border:none; color:#fff;border-radius: 35px;">Create List</button>
+                  </div>
+                 </form>
+       
+              
+  
+       
+            </div>
+        </div>
+    
+    
+    
+    
+      </div>
+    </div>
+     
+    
+      
+    
+     <!--Invisible Popup div  -->  
+    
+    <div class="modal7">
+        <div class="modal-header7">
+          <span class="close-btn7">&times;</span>
+        </div>
+        <div class="modal-content7">  
+        </div>
+        <div class="modal-footer7">
+        </div>
+      </div>
+    
+    
+     <!--end popu 7 - update task -->  
+
+
+
+
+
+ <!--CSS  -->  
+
+<style>
+
+
+.hero.is-primary {
+    background-color: rgb(5, 25, 45);
+    color: #338a7e;
+}
+
+.button.is-info, .button.is-info:hover, .button.is-info.is-active, .button.is-info:active {
+    background-color: #338a7e;
+    border-color: transparent;
+    color: rgb(5, 25, 45);
+    font-weight: 700;
+}
+
+
+
+.add-block-button{
+  transition: none;
+    padding-top: 6px;
+    font-size: 19px;
+    padding-bottom: 6px;
+    background: transparent;
+    color: rgba(0,0,0,.6);
+    border: 2px dashed rgb(5, 25, 45);;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.smartpage-container .add-block-button {
+    -webkit-transition: none;
+    -o-transition: none;
+    transition: none;
+    margin-bottom: 16px;
+    padding-bottom: 0;
+    background: transparent;
+    color: rgba(0,0,0,.6);
+    border: 2px dashed rgba(0,0,0,.6);
+    -webkit-box-shadow: none;
+    box-shadow: none;}
+
+
+.smartpage-container .add-block-button, .smartpage-container .block-item.layout-button, .smartpage-container .block-item.layout-button-image-bg, .smartpage-container .block-item.layout-button-thumbnail, .smartpage-container .block-item.layout-card, .smartpage-container .block-item.layout-countdown.card-style, .smartpage-container .layout-button-image-bg.add-block-button, .smartpage-container .layout-button-thumbnail.add-block-button, .smartpage-container .layout-card.add-block-button, .smartpage-container .layout-countdown.card-style.add-block-button {
+    background: #000;
+    color: #fff;
+    border-radius: 12px;
+    text-align: center;
+    -webkit-box-shadow: 0 10px 35px -5px rgba(0,0,0,.2);
+    box-shadow: 0 10px 35px -5px rgba(0,0,0,.2);
+    font-weight: bolder;}
+
+    .smartpage-container .add-block-button, .smartpage-container .links-block {
+    max-width: 400px;
+    margin: 0 auto;
+    font-size: 16px;
+    line-height: 1.4;
+    -ms-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    padding: 0;
+    padding-bottom: 16px;
+}
+
+svg:not(:root).svg-inline--fa {
+    overflow: visible;
+}
+
+.svg-inline--fa.fa-w-12 {
+    width: 0.75em;
+}
+
+.svg-inline--fa {
+    display: inline-block;
+    font-size: inherit;
+    height: 1em;
+    overflow: visible;
+    vertical-align: -.125em;
+}
+
+.theme-1 .smartpage-container .add-block-button, .theme-1 .smartpage-container .avatar.empty, .theme-1 .smartpage-container .avatar-editor .avatar-upload {
+    color: rgba(255,255,255,0.5);
+    border-color: rgba(255,255,255,0.5);
+}
+
+
+.modal {
+  display: none;
+  position: fixed; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  position: relative; 
+  background-color: white;
+  color: black;
+  border-radius: 24px;
+  padding: 0px; 
+  margin-top: 210px; 
+  width: 100%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.modal-card, .modal-content{
+  margin: 0 0px;
+  overflow: auto; 
+  margin-top: 210px; 
+}
+
+.close-btn {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn:hover {
+  color: darkgray;
+}
+@-webkit-keyframes animatetop {
+  from {top: 600px; opacity:0} 
+  to {top:0; opacity:1}
+}
+@keyframes animatetop {
+  from {top: 600px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+
+
+
+.modal2 {
+  display: none;
+  position: fixed; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal2-content {
+  position: relative; 
+  background-color: white;
+  color: black;
+  border-radius: 24px;
+  padding: 0px; 
+  margin-top: 210px; 
+  width: 100%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.modal2-card, .modal2-content{
+  margin: 0 0px;
+  overflow: auto; 
+  margin-top: 210px; 
+}
+
+.close-btn2 {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn2:hover {
+  color: darkgray;
+}
+
+
+
+.modal3 {
+  display: none;
+  position: fixed; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal3-content {
+  position: relative; 
+  background-color: white;
+  color: black;
+  border-radius: 24px;
+  padding: 0px; 
+  margin-top: 210px; 
+  width: 100%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.modal3-card, .modal3-content{
+  margin: 0 0px;
+  overflow: auto; 
+  margin-top: 210px; 
+}
+
+.close-btn3 {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn3:hover {
+  color: darkgray;
+}
+
+
+
+
+.modal4 {
+  display: none;
+  position: fixed; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal4-content {
+  position: relative; 
+  background-color: white;
+  color: black;
+  border-radius: 24px;
+  padding: 0px; 
+  margin-top: 210px; 
+  width: 100%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.modal4-card, .modal4-content{
+  margin: 0 0px;
+  overflow: auto; 
+  margin-top: 210px; 
+}
+
+.close-btn4 {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn4:hover {
+  color: darkgray;
+}
+
+
+
+.modal5 {
+  display: none;
+  position: fixed; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal5-content {
+  position: relative; 
+  background-color: white;
+  color: black;
+  border-radius: 24px;
+  padding: 0px; 
+  margin-top: 210px; 
+  width: 100%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.modal5-card, .modal5-content{
+  margin: 0 0px;
+  overflow: auto; 
+  margin-top: 210px; 
+}
+
+.close-btn5 {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn5:hover {
+  color: darkgray;
+}
+
+
+
+
+.modal6 {
+  display: none;
+  position: fixed; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal6-content {
+  position: relative; 
+  background-color: white;
+  color: black;
+  border-radius: 24px;
+  padding: 0px; 
+  margin-top: 210px; 
+  width: 100%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.modal6-card, .modal6-content{
+  margin: 0 0px;
+  overflow: auto; 
+  margin-top: 210px; 
+}
+
+.close-btn6 {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn6:hover {
+  color: darkgray;
+}
+
+
+
+
+.modal7 {
+  display: none;
+  position: fixed; 
+  left: 0; 
+  top: 0;
+  width: 100%;
+  height: 100%; 
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal7-content {
+  position: relative; 
+  background-color: white;
+  color: black;
+  border-radius: 24px;
+  padding: 0px; 
+  margin-top: 210px; 
+  width: 100%;  
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+.modal7-card, .modal7-content{
+  margin: 0 0px;
+  overflow: auto; 
+  margin-top: 210px; 
+}
+
+.close-btn7 {
+  float: right; 
+  color: lightgray; 
+  font-size: 24px;  
+  font-weight: bold;
+}
+.close-btn7:hover {
+  color: darkgray;
+}
+
+
+
+
+
+</style>
+
+
+ <!--Popup JavaScript  -->  
+
+ <script
+ src="https://code.jquery.com/jquery-3.5.1.js"
+ integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+ crossorigin="anonymous">
+ 
+ 
+
+
+
+</script>
+ 
+
+<script>
+
+let modalBtn = document.getElementById("modal-btn")
+let modal = document.querySelector(".modal")
+let closeBtn = document.querySelector(".close-btn")
+modalBtn.onclick = function(){
+  modal.style.display = "block"
+}
+closeBtn.onclick = function(){
+  modal.style.display = "none"
+}
+window.onclick = function(e){
+  if(e.target == modal){
+    modal.style.display = "none"
+  }
+
+ 
+
+}
+
+</script>
+ 
+
+<script>
+
+let modalBtn2 = document.getElementById("modal-btn2")
+let modal2 = document.querySelector(".modal2")
+let closeBtn2 = document.querySelector(".close-btn2")
+modalBtn2.onclick = function(){
+  modal2.style.display = "block"
+}
+closeBtn2.onclick = function(){
+  modal2.style.display = "none"
+}
+window.onclick = function(e){
+  if(e.target == modal2){
+    modal2.style.display = "none"
+  }
+}
+ 
+
+</script>
+
+
+
+<script>
+
+    let modalBtn3 = document.getElementById("modal-btn3")
+    let modal3 = document.querySelector(".modal3")
+    let closeBtn3 = document.querySelector(".close-btn3")
+    modalBtn3.onclick = function(){
+      modal3.style.display = "block"
+    }
+    closeBtn3.onclick = function(){
+      modal3.style.display = "none"
+    }
+    window.onclick = function(e){
+      if(e.target == modal3){
+        modal3.style.display = "none"
+      }
+    }
+     
+    
+    </script>
+
+
+
+
+    <!--This script will get the values from the anchors and will pass it to the modal box  -->  
+    <!--once there the values will be presented inside the fields and the user will be abele to update it -->  
+    <!--then the values will submitted by the form and this function will fix the url action -->  
+
+  <script>
+
+    let modal4 = document.querySelector(".modal4")
+    let closeBtn4 = document.querySelector(".close-btn4")
+
+    $('.modal-btn4').click(function(){
+        modal4.style.display = "block";
+        var Mytaskid = $(this).data('id');
+        $(".modal-data #taskId").val( Mytaskid );
+        var Mytaskid2 = $(this).data('ct');
+        $(".modal-data #taskContent").val( Mytaskid2 );
+        $('#buttonUpdate').click(function(){
+          var url = '/update/' + Mytaskid
+          $('#updateTask0').attr('action', url);
+       });
+
+     });
+
+     $('.close-btn4').click(function(){
+      modal4.style.display = "none";
+      });
+
+      $('.modal4').on('shown.bs.modal', function () {
+        $('.taskContent').focus()
+      })
+      
+
+</script>
+
+
+<script>
+
+  let modal5 = document.querySelector(".modal5")
+  let closeBtn5 = document.querySelector(".close-btn5")
+
+  $('.modal-btn5').click(function(){
+      modal5.style.display = "block";
+      var Mytaskid3 = $(this).data('id');
+      $(".modal-data #taskId").val( Mytaskid3 );
+      var Mytaskid4 = $(this).data('ct');
+      $(".modal-data #taskContent").val( Mytaskid4 );
+      $('#buttonUpdate').click(function(){
+        var url = '/update/' + Mytaskid3
+        $('#updateTask').attr('action', url);
+     });
+
+   });
+
+   $('.close-btn5').click(function(){
+    modal5.style.display = "none";
+    });
+
+    $('.modal5').on('shown.bs.modal', function () {
+      $('.taskContent').focus()
+    })
+    
+
+</script>
+
+
+<script>
+
+    let modal6 = document.querySelector(".modal6")
+    let closeBtn6 = document.querySelector(".close-btn6")
+  
+    $('.modal-btn6').click(function(){
+        modal6.style.display = "block";
+        var Mytaskid5 = $(this).data('id');
+        $(".modal-data #taskId").val( Mytaskid5 );
+        var Mytaskid6 = $(this).data('ct');
+        $(".modal-data #taskContent").val( Mytaskid6 );
+        $('#buttonUpdate').click(function(){
+          var url = '/update/' + Mytaskid5
+          $('#updateTask2').attr('action', url);
+       });
+  
+     });
+  
+     $('.close-btn6').click(function(){
+      modal6.style.display = "none";
+      });
+  
+      $('.modal6').on('shown.bs.modal', function () {
+        $('.taskContent').focus()
+      })
+      
+  
+  </script>
+
+
+
+
+  
+<script>
+
+    let modal7 = document.querySelector(".modal7")
+    let closeBtn7 = document.querySelector(".close-btn7")
+  
+    $('.modal-btn7').click(function(){
+        modal7.style.display = "block";
+        var Mytaskid7 = $(this).data('id');
+        $(".modal-data #taskId").val( Mytaskid7 );
+        var Mytaskid8 = $(this).data('ct');
+        $(".modal-data #taskContent").val( Mytaskid8 );
+        $('#buttonUpdate').click(function(){
+          var url = '/update/' + Mytaskid7
+          $('#updateTask3').attr('action', url);
+       });
+  
+     });
+  
+     $('.close-btn7').click(function(){
+      modal7.style.display = "none";
+      });
+  
+      $('.modal7').on('shown.bs.modal', function () {
+        $('.taskContent').focus()
+      })
+      
+  
+  </script>
+
+
+
+
+ 
+ 
+ <!-- Refresh Page and Keep Scroll Position -->  
+
+
+ <script>
+    document.addEventListener("DOMContentLoaded", function(event) { 
+        var scrollpos = localStorage.getItem('scrollpos');
+        if (scrollpos) window.scrollTo(0, scrollpos);
+    });
+
+    window.onbeforeunload = function(e) {
+        localStorage.setItem('scrollpos', window.scrollY);
+    };
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        var scrollpos = sessionStorage.getItem('scrollpos');
+        if (scrollpos) {
+            window.scrollTo(0, scrollpos);
+            sessionStorage.removeItem('scrollpos');
+        }
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+        sessionStorage.setItem('scrollpos', window.scrollY);
+    });
+</script>
+
+
+ <!-- apply trim to the left / right side of the input text--> 
+
+<script>
+
+    $(function(){
+      $('input[type="text"]').change(function(){
+          this.value = $.trim(this.value);
+      });
+  });
+  
+
+</script>
+ 
+ 
+
+
+ <!-- drag and drop profile pic --> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+
+
+ 
+
+<script src="/static/plugins/jquery/jquery-3.4.1.min.js"></script>
+<script src="/static/plugins/bootstrap/popper.min.js"></script>
+<script src="/static/plugins/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="/static/js/connect.min.js"></script>
+ 
+
+ <!-- drag and drop tasks --> 
+
+ 
+ 
+<script>
+    function dragStart(event) {
+      event.dataTransfer.setData("Text", event.target.id);
+    }
+    
+    function dragging(event) {
+      document.getElementById("demo").innerHTML = "The p element is being dragged";
+    }
+    
+    function allowDrop(event) {
+      event.preventDefault();
+    }
+    
+    function drop(event) {
+      event.preventDefault();
+      var data = event.dataTransfer.getData("Text");
+      event.target.appendChild(document.getElementById(data));
+      document.getElementById("demo").innerHTML = "The p element was dropped";
+    }
+    </script>
+    
+ 
+
+<script>
+  //// tooltip for input texr 
+  
+    document.querySelector('#frm').addEventListener('submit', e => {
+      e.preventDefault();
+      e.currentTarget.classList.add('submitted');
+    });
+
+</script>
+  
+ 
+{% endblock %}
